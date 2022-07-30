@@ -15,7 +15,7 @@ function main() {
 
       const combineData15m = [];
       Promise.all(allSymbols.map(async symbol => {
-        const resp = await getDataCoin(symbol, localStorage.getItem("futureTime") || "15m")
+        const resp = await getDataCoin(symbol, localStorage.getItem("futureTime") || "1m")
         return resp.json();
       })).then(allResult => {
         allResult.forEach((dataDetailCoin, index) => {
