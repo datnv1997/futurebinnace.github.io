@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="coin">
+      <div class="title">FT LONG in 15m</div>
+      <select id="futureTimeSelect" onchange="changeFutureTime()">
+        <option value="1m">1m</option>
+        <option value="3m">3m</option>
+        <option value="5m">5m</option>
+        <option value="15m">15m</option>
+        <option value="1h">1h</option>
+        <option value="4h">4h</option>
+      </select>
+      <table>
+        <tr>
+          <th>tên</th>
+          <th>giá cũ</th>
+          <th>Giá hiện tại</th>
+          <th>% tăng</th>
+          <th>Có biến động về volume</th>
+          <th>Thời gian biến động</th>
+          <th>Khoảng thời gian biến động</th>
+        </tr>
+          <tbody class="render-item">
+           
+          </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+<script src="./index.js"></script>
+
+<script>
+  
+
+</script>
+</html>
