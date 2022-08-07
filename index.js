@@ -97,13 +97,13 @@ async function getDataCoin(symbol, interval) {
 function checkVolatilityVol(dataCoin) {
   let data = dataCoin.reverse();
   const highestVol = data.map(item => parseFloat(item[indexVol])).sort(function (a, b) { return b - a })[0];
-  let lowestVol = data.map(item => parseFloat(item[indexVol])).sort(function (a, b) { return a - b })[0];
+  let lowestVol = data.map(item => parseFloat(item[indexVol])).sort(function (a, b) { return a - b })[1];
   const currentVol = parseFloat(data[0][indexVol]);
   let isVolatility = false;
 
-  if (currentVol < highestVol) {
-    lowestVol = data.map(item => parseFloat(item[indexVol])).sort(function (a, b) { return a - b })[1];
-  }
+  // if (currentVol < lowestVol) {
+  //   lowestVol = data.map(item => parseFloat(item[indexVol])).sort(function (a, b) { return a - b })[1];
+  // }
   if (highestVol > lowestVol * setting.volatilityVol) isVolatility = true
 
   return isVolatility
