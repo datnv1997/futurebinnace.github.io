@@ -18,7 +18,7 @@ function main() {
       data.filter(item => {
         if (!allSymbols.includes(item.symbol) && item.symbol.includes("USDT"))
           allSymbols.push(item.symbol)
-        })
+      })
 
       const combineData = [];
       Promise.all(allSymbols.map(async symbol => {
@@ -68,21 +68,21 @@ function calculateChangePercentPrice(currentPrice, oldPrice) {
 }
 
 function bindingData(data) {
-  const isVolatilityVol  = data.isVolatilityVol;
+  const isVolatilityVol = data.isVolatilityVol;
   return `
   <tr>
     <td>${data.coinName}</td>
     <td>${data.oldPrice}</td>
     <td>${data.lastetPrice}</td>
     <td>${data.percentChange}</td>
-    <td style="${isVolatilityVol ? 'color: green; font-weight: bold': ''}">${isVolatilityVol ? "Có" : "Không"}</td>
+    <td style="${isVolatilityVol ? 'color: green; font-weight: bold' : ''}">${isVolatilityVol ? "Có" : "Không"}</td>
     <td>${data.timeVolatilityVol}</td>
     <td>${data.timeVolatilityVolFromNow}</td>
-    <td style="${data.sideway ? 'color: green; font-weight: bold': ''}">${data.sideway? "Có" : "Không"}</td>
+   
   </tr>
   `
 }
-
+// <td style="${data.sideway ? 'color: green; font-weight: bold': ''}">${data.sideway? "Có" : "Không"}</td>
 
 async function getDataCoin(symbol, interval) {
   return fetch(`https://fapi.binance.com/fapi/v1/klines?symbol=${symbol}&interval=${interval}&limit=15`)
@@ -118,7 +118,7 @@ function getDataHighestPrice(dataCoin) {
 function getDataLowestPrice(dataCoin) {
   return dataCoin.sort(function (a, b) { return parseFloat(a[indexLowestPrice]) - parseFloat(b[indexLowestPrice]) })[0];
 }
-function checkSideway(dataCoin) { 
+function checkSideway(dataCoin) {
   const highestData = getDataHighestPrice(dataCoin);
   const lowestData = getDataLowestPrice(dataCoin);
   console.log("highestData", highestData);
