@@ -36,7 +36,8 @@ function main() {
             isVolatilityVol: checkVolatilityVol(dataDetailCoin),
             timeVolatilityVol: checkVolatilityVol(dataDetailCoin) ? moment(dataHighestVol[0]).format("HH:mm:ss") : "",
             timeVolatilityVolFromNow: checkVolatilityVol(dataDetailCoin) ? moment(dataHighestVol[0]).fromNow() : "",
-            sideway: checkSideway(dataDetailCoin)
+            sideway: checkSideway(dataDetailCoin),
+            time:  moment(dataHighestVol[0]).format("YYYY-MM-DD:HH:mm:ss")
           })
         })
 
@@ -45,7 +46,10 @@ function main() {
         // =======check fitler 
         if(localStorage.getItem("futureVolatilityVolSelect") === 'yes' && combineData?.length) {
           console.log("combineData", combineData);
-          combineData = combineData?.filter(item => item.isVolatilityVol)
+          combineData = combineData?.filter(item => item.isVolatilityVol);
+          combineData.sort(function(a,b){
+            return new Date(b.time) - new Date(a.time);
+          });
         }
         //======= end filter
         combineData.forEach(item => {
