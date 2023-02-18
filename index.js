@@ -20,7 +20,7 @@ function main() {
           allSymbols.push(item.symbol)
       })
 
-      const combineData = [];
+      let combineData = [];
       Promise.all(allSymbols.map(async symbol => {
         const resp = await getDataCoin(symbol, localStorage.getItem("futureTime") || "1m")
         return resp.json();
@@ -41,6 +41,13 @@ function main() {
         })
 
         $(".render-item").empty();
+      
+        // =======check fitler 
+        if(localStorage.getItem("futureVolatilityVolSelect") === 'yes' && combineData?.length) {
+          console.log("combineData", combineData);
+          combineData = combineData?.filter(item => item.isVolatilityVol)
+        }
+        //======= end filter
         combineData.forEach(item => {
           $(".render-item").append(bindingData(item))
         })
@@ -55,11 +62,17 @@ setInterval(() => {
 }, 4000);
 function initPage() {
   $("#futureTimeSelect").val(localStorage.getItem("futureTime"));
+  $("#futureVolatilityVolSelect").val(localStorage.getItem("futureVolatilityVolSelect"));
 }
 
 function changeFutureTime() {
   var value = document.getElementById("futureTimeSelect").value;
   localStorage.setItem("futureTime", value);
+  window.location.reload();
+}
+function filterVolatilityVol(value) {
+  var value = document.getElementById("futureVolatilityVolSelect").value;
+  localStorage.setItem("futureVolatilityVolSelect", value);
   window.location.reload();
 }
 
@@ -94,6 +107,8 @@ async function getDataCoin(symbol, interval) {
 //   checkSideway(dataFormat)
 // })
 
+
+
 function checkVolatilityVol(dataCoin) {
   let data = dataCoin.reverse();
   const highestVol = data.map(item => parseFloat(item[indexVol])).sort(function (a, b) { return b - a })[0];
@@ -121,15 +136,10 @@ function getDataLowestPrice(dataCoin) {
 function checkSideway(dataCoin) {
   const highestData = getDataHighestPrice(dataCoin);
   const lowestData = getDataLowestPrice(dataCoin);
-  console.log("highestData", highestData);
-  console.log("lowestData", lowestData);
 
   const hightOfLowestCandle = Math.abs(parseFloat(lowestData[indexLastestPriceOrClose]) - parseFloat(lowestData[indexOldPrice]))
   const hightOfHighestCandle = Math.abs(parseFloat(highestData[indexLastestPriceOrClose]) - parseFloat(lowestData[indexLastestPriceOrClose]))
   // let flag = dataCoin.some(item => hightOfLowestCandle > 2 * Math.abs(parseFloat(item[indexLastestPriceOrClose]) - parseFloat(item[indexOldPrice])))
-
-  console.log("hightOflowestCandle", hightOfLowestCandle);
-  console.log("hightOfHighestCandle", hightOfHighestCandle);
 
   const maxHeightAllow = hightOfLowestCandle * setting.sidewayPrice;
 
