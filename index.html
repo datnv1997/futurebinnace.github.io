@@ -30,7 +30,7 @@
 
 <body>
   <div class="container">
-    <a href="myapp://app/confirmToken">Open App</a>
+    <a href="#" onclick="openApp()">Open App</a>
     <!-- <div class="coin">
       <div class="title">FT LONG </div>
       <select id="futureTimeSelect" onchange="changeFutureTime()">
@@ -65,7 +65,10 @@
 <!-- <script src="./index.js"></script> -->
 
 <script>
-
+function openApp() {
+  setTimeout(function () { window.location = "https://play.google.com/store/apps/details?id=com.square_enix.pool&hl=vi-VN"; }, 100);
+  window.location = "myapp://app";
+}
 
 </script>
 
