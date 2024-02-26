@@ -65,8 +65,20 @@
 <!-- <script src="./index.js"></script> -->
 
 <script>
+  function iOS() {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  }
 function openApp() {
-  setTimeout(function () { window.location = "https://play.google.com/store/apps/details?id=com.square_enix.pool&hl=vi-VN"; }, 1000);
+  setTimeout(function () { window.location = iOS() ? "https://apps.apple.com/us/app/stack-ball-3d/id1456732568":  "https://play.google.com/store/apps/details?id=com.square_enix.pool&hl=vi-VN"; }, 1000);
   window.location = "myapp://app";
 }
 
