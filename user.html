@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
 
-    td,
-    th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+  </head>
 
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <a href="#" onclick="openApp()">Open App user</a>
-    <!-- <div class="coin">
+  <body>
+    <div class="container">
+      <a href="#" id="test" onclick="openApp()">Open App user</a>
+      <!-- <div class="coin">
       <div class="title">FT LONG </div>
       <select id="futureTimeSelect" onchange="changeFutureTime()">
         <option value="1m">1m</option>
@@ -60,38 +59,36 @@
         </tbody>
       </table>
     </div> -->
-  </div>
-</body>
-<!-- <script src="./index.js"></script> -->
+    </div>
+  </body>
+  <!-- <script src="./index.js"></script> -->
 
-<script>
-  window.onload = (event) => {
-    function iOS() {
-    return [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod'
-    ].includes(navigator.platform)
-    // iPad on iOS 13 detection
-    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-  }
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get('id')
-  console.log(id);
-  function openApp() {
-    setTimeout(function () {
-      window.location = iOS() 
-      ? "https://apps.apple.com/us/app/stack-ball-3d/id1456732568" // link app store example
-      : "https://play.google.com/store/apps/details?id=com.square_enix.pool&hl=vi-VN" // link google play store example
-      ; }, 5000);
-      window.location = `myapp://app`;
-    }
-  openApp();
-
-  };
-</script>
-
+  <script>
+    function openApp() {
+        setTimeout(function () {
+          window.location = iOS()
+            ? "https://apps.apple.com/us/app/stack-ball-3d/id1456732568" // link app store example
+            : "https://play.google.com/store/apps/details?id=com.square_enix.pool&hl=vi-VN"; // link google play store example
+        }, 5000);
+        window.location = `myapp://app`;
+      }
+    window.onload = (event) => {
+      function iOS() {
+        return (
+          ["iPad Simulator", "iPhone Simulator", "iPod Simulator", "iPad", "iPhone", "iPod"].includes(
+            navigator.platform
+          ) ||
+          // iPad on iOS 13 detection
+          (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+        );
+      }
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get("id");
+      console.log(id);
+      
+      setTimeout(function () {
+        document.getElementById("test").click();
+      }, 2000);
+    };
+  </script>
 </html>
