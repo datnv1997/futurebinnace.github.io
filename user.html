@@ -65,7 +65,8 @@
 <!-- <script src="./index.js"></script> -->
 
 <script>
-  function iOS() {
+  window.onload = (event) => {
+    function iOS() {
     return [
       'iPad Simulator',
       'iPhone Simulator',
@@ -77,15 +78,20 @@
     // iPad on iOS 13 detection
     || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
   }
-function openApp() {
-  setTimeout(function () {
-    window.location = iOS() 
-    ? "https://apps.apple.com/us/app/stack-ball-3d/id1456732568" // link app store example
-    : "https://play.google.com/store/apps/details?id=com.square_enix.pool&hl=vi-VN" // link google play store example
-    ; }, 1000);
-  window.location = "myapp://app";
-}
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id')
+  console.log(id);
+  function openApp() {
+    setTimeout(function () {
+      window.location = iOS() 
+      ? "https://apps.apple.com/us/app/stack-ball-3d/id1456732568" // link app store example
+      : "https://play.google.com/store/apps/details?id=com.square_enix.pool&hl=vi-VN" // link google play store example
+      ; }, 1000);
+      window.location = `myapp://app/profile/${id}`;
+    }
+  openApp();
 
+  };
 </script>
 
 </html>
