@@ -1,91 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firebase Web Push Notification</title>
+    <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.4.0/firebase-messaging-compat.js"></script>
+  </head>
+  <body>
+    <h2>Firebase Web Push Notification</h2>
+    <button onclick="myFunction()">Nhận thông báo</button>
+    <p id="token"></p>
+    <script></script>
+    <script>
+      // Import Firebase modules
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
+      // Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyBBCH7FOUvj0NBL9y7u1IhweMg24b43zrA",
+        authDomain: "test-noti-web-c0cb4.firebaseapp.com",
+        projectId: "test-noti-web-c0cb4",
+        storageBucket: "test-noti-web-c0cb4.appspot.com",
+        messagingSenderId: "8328105539",
+        appId: "1:8328105539:web:e7138cc5067ee098e6cef6",
+        measurementId: "G-K0JCV5K7KP",
+      };
 
-    td,
-    th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const messaging = firebase.messaging();
 
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-  </style>
-</head>
+      async function getFCMToken() {
+        console.log("vvv");
 
-<body>
-  <div class="container">
-    <a href="#" onclick="openApp()">Open App 2</a>
-    <!-- <div class="coin">
-      <div class="title">FT LONG </div>
-      <select id="futureTimeSelect" onchange="changeFutureTime()">
-        <option value="1m">1m</option>
-        <option value="3m">3m</option>
-        <option value="5m">5m</option>
-        <option value="15m">15m</option>
-        <option value="1h">1h</option>
-        <option value="4h">4h</option>
-      </select>
-      <select id="futureVolatilityVolSelect" onchange="filterVolatilityVol()">
-        <option value="all">all</option>
-        <option value="yes">Biến động</option>
-      </select>
-      <table>
-        <tr>
-          <th>tên</th>
-          <th>giá cũ</th>
-          <th>Giá hiện tại</th>
-          <th>% tăng</th>
-          <th>Có biến động về volume</th>
-          <th>Thời gian biến động</th>
-          <th>Nến cao nhất</th>
-        </tr>
-        <tbody class="render-item">
+        try {
+          const token = await messaging.getToken(messaging, {
+            vapidKey: "BHB04BfElyrBDcSR505SmDncIHbyVzW1H-rFX-W4wVw2wHnj1JIYq4lZnSskr8fLP-dFpeq_dunP4pyfN4GbRnQ",
+          });
 
-        </tbody>
-      </table>
-    </div> -->
-  </div>
-</body>
-<!-- <script src="./index.js"></script> -->
+          if (token) {
+            console.log("FCM Token:", token);
+            document.getElementById("token").innerText = token;
+          } else {
+            console.log("Không lấy được token.");
+          }
+        } catch (error) {
+          console.error("Lỗi khi lấy token:", error);
+        }
+      }
+      async function myFunction() {
+        try {
+          alert("dd");
+          const permission = await Notification.requestPermission();
+          console.log("permission", permission);
 
-<script>
-  function iOS() {
-    return [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod'
-    ].includes(navigator.platform)
-    // iPad on iOS 13 detection
-    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-  }
-function openApp() {
-  setTimeout(function () {
-    window.location = iOS() 
-    ? "https://apps.apple.com/us/app/stack-ball-3d/id1456732568" // link app store example
-    : "https://play.google.com/store/apps/details?id=com.square_enix.pool&hl=vi-VN" // link google play store example
-    ; }, 1000);
-  window.location = "myapp://app";
-}
+          if (permission === "granted") {
+            console.log("Thông báo được cho phép.");
+            getFCMToken();
+          } else {
+            console.log("Người dùng từ chối thông báo.");
+          }
+        } catch (error) {
+          console.error("Lỗi khi yêu cầu quyền:", error);
+        }
+      }
 
-</script>
+      // Handle incoming messages when the webpage is open
+      messaging.onMessage(messaging, (payload) => {
+        console.log("Thông báo nhận được:", payload);
+        alert(`Thông báo mới: ${payload.notification.title} - ${payload.notification.body}`);
+      });
 
+      // Register service worker
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          try {
+            const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+            console.log("Service Worker registered successfully:", registration);
+          } catch (error) {
+            console.error("Service Worker registration failed:", error);
+          }
+        });
+      } else {
+        console.warn("Service Worker is not supported in this browser.");
+      }
+    </script>
+  </body>
 </html>
